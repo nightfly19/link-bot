@@ -6,7 +6,8 @@
   "dependencies": {
     "irc": "*",
     "node.io": "*",
-    "short-url": "*"
+    "short-url": "*",
+    "underscore": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

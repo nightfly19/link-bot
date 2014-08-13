@@ -1,8 +1,9 @@
 var url = require('url');
 var irc = require("irc");
 var nodeio = require("node.io");
-var settings = require("./settings.json");
 var googl = require('short-url');
+var _ = require('underscore');
+var settings = require("./settings.json");
 
 var irc_conn = new irc.Client(settings.irc.server, settings.irc.nick, settings.irc.options);
 
@@ -37,8 +38,35 @@ function printLinkTitles(from, to, text){
   });
 }
 
+var commands = {
+  "help": function(nick, to){
+    irc_conn.say(to, "Commands: " + _.keys(commands).sort().join(" "));
+  },
+  "join": function(nick, to, args, message){
+    irc_conn.say(to, "Joining: " + args);
+    irc_conn.join(args);
+  },
+  "part": function(nick, to, args, message){
+    irc_conn.say(to, "parting: " + args);
+    irc_conn.part(args);
+  }
+};
+
 irc_conn.on('message', function(nick, to, text, message){
-  printLinkTitles(nick, to, text);
+  var commandRegex = new RegExp("^"+settings.irc.nick+":?\\s+(\\S+)(.*)$");
+  var wasCommand = commandRegex.exec(text);
+  if(wasCommand){
+    var command = commands[wasCommand[1]];
+    if(command){
+      command(nick, to, wasCommand[2], message);
+    }
+    else{
+      printLinkTitles(nick, to, text);
+    }
+  }
+  else{
+    printLinkTitles(nick, to, text);
+  }
 });
 
 irc_conn.on('error', function(err){

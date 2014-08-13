@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "irc": "*",
-    "node.io": "*"
+    "node.io": "*",
+    "short-url": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

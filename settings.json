@@ -1,0 +1,13 @@
+{
+  "irc":{
+    "server": "irc.cat.pdx.edu",
+    "nick": "link-bot",
+    "options":{
+      "port": 6697,
+      "secure": true,
+      "channels": ["#derp"],
+      "floodProtection": true,
+      "floodProtectionDelay": 1000
+    }
+  }
+}

@@ -12,7 +12,7 @@ var job = new nodeio.Job();
 
 function printLinkTitles(from, to, text){
   var urls = text.trim().split(/\s+/).filter(function(word){
-    return url.parse(word).protocol == 'http:';
+    return !! new RegExp('^https?:').exec(url.parse(word).protocol);
   });
 
   urls.forEach(function(url){
@@ -23,7 +23,13 @@ function printLinkTitles(from, to, text){
       }
       try{
         var text = $('title').text;
-        if(text){
+	if(text){
+            text = text.replace(/[\n\r]/," ").replace(/\s+/g," ").trim();
+	}
+	else{
+            text = ""
+        }
+
           googl.shorten(url, function(err, shortened){
             var shorted = "";
             if(!err){
@@ -31,7 +37,6 @@ function printLinkTitles(from, to, text){
             }
             irc_conn.say(to, text+shorted);
           });
-        }
       }
       catch(err){}
     });

@@ -16,6 +16,7 @@ function printLinkTitles(from, to, text){
   });
 
   urls.forEach(function(url){
+    console.log("URL: " + url);
     job.getHtml(url, function(err, $, data){
       if(err){
         console.log(err);
@@ -75,5 +76,6 @@ irc_conn.on('message', function(nick, to, text, message){
 });
 
 irc_conn.on('error', function(err){
-  console.log("Irc error")
+	console.log("Irc error");
+	console.log(err);
 });
